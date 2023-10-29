@@ -3,3 +3,7 @@ pub trait CommandLineArguments<'a> {
     where
         Self: std::marker::Sized;
 }
+
+pub fn has_flag(args: &[String], flag: &'static str) -> bool {
+    args.iter().any(|arg| arg == flag)
+}

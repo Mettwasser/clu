@@ -28,7 +28,7 @@ pub fn run(args: &[String]) -> Result<()> {
         )
     })?;
 
-    let found_lines = search_in_text(&file_contents, &args.patterns, args.ignore_case);
+    let found_lines = search_in_text(&file_contents, &args.patterns, args.ignore_case, args.color);
 
     print_lines(found_lines);
 

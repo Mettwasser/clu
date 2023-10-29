@@ -1,10 +1,11 @@
-use super::command_line_arguments::CommandLineArguments;
+use super::command_line_arguments::{has_flag, CommandLineArguments};
 
 #[derive(Debug, PartialEq)]
 pub struct GrepArguments<'a> {
     pub filename: &'a str,
     pub patterns: Vec<String>,
     pub ignore_case: bool,
+    pub color: bool,
 }
 
 impl<'a> CommandLineArguments<'a> for GrepArguments<'a> {
@@ -21,12 +22,11 @@ impl<'a> CommandLineArguments<'a> for GrepArguments<'a> {
             .cloned()
             .collect();
 
-        let ignore_case = args.contains(&("--ignore-case".into()));
-
         Ok(GrepArguments {
             filename,
             patterns,
-            ignore_case,
+            ignore_case: has_flag(args, "--ignore-case"),
+            color: !has_flag(args, "--no-color"),
         })
     }
 }
@@ -48,7 +48,8 @@ fn test_parsing() {
         GrepArguments {
             filename: "t.txt",
             patterns: vec![String::from("pattern")],
-            ignore_case: true
+            ignore_case: true,
+            color: true
         }
     )
 }
